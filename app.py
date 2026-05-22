@@ -118,7 +118,7 @@ section[data-testid="stSidebar"] {{
 }}
 
 .block-container, .stMainBlockContainer {{
-    max-width: 100% !important;
+    max-width: 1400px !important;
     padding-left: 2rem !important;
     padding-right: 2rem !important;
     padding-top: 1.5rem !important;
@@ -515,12 +515,12 @@ head_cols = st.columns([3.5, 1.5])
 with head_cols[0]:
     logo_html = ""
     if logo_b64:
-        logo_html = f"<img src='data:image/svg+xml;base64,{logo_b64}' style='max-height:52px;width:auto;display:block;'/>"
+        logo_html = f"<img src='data:image/svg+xml;base64,{logo_b64}' style='max-height:60px;width:auto;display:block;'/>"
     else:
         logo_html = f"<h1 style='color:{ACCENT};margin:0;font-weight:800;font-size:24px;'>CLINICA CRP</h1>"
     
     st.markdown(
-        f"<div style='display:flex;align-items:center;height:65px;'>"
+        f"<div style='display:flex;align-items:center;height:75px;'>"
         f"  {logo_html}"
         f"</div>",
         unsafe_allow_html=True,
@@ -534,7 +534,7 @@ with head_cols[1]:
     badge_title = "Google Sheets (En Vivo)" if is_live else "Excel Local (Offline)"
 
     st.markdown(
-        f"<div style='text-align:right;height:65px;display:flex;flex-direction:column;justify-content:center;align-items:flex-end;'>"
+        f"<div style='text-align:right;height:75px;display:flex;flex-direction:column;justify-content:center;align-items:flex-end;'>"
         f"  <span style='font-size:10px;font-weight:700;color:{MUTED};letter-spacing:1px;text-transform:uppercase;'>Centro de Operaciones</span>"
         f"  <div style='display:flex;align-items:center;gap:6px;margin-top:2px;'>"
         f"    <span style='font-size:12px;color:{GREEN};font-weight:600;'>&bull; Campaña Mayo 2026</span>"
