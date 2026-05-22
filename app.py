@@ -390,6 +390,21 @@ hr {{ border-color:{BORDER}!important; }}
         font-size: 15px !important;
     }}
 }}
+
+/* ---- plotly chart cards ---- */
+div[data-testid="stPlotlyChart"] {{
+    background: {SURFACE} !important;
+    border: 1px solid {BORDER} !important;
+    border-radius: 16px !important;
+    padding: 12px 14px !important;
+    box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.03), 0 2px 4px -2px rgba(15, 23, 42, 0.02) !important;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.25s !important;
+}}
+div[data-testid="stPlotlyChart"]:hover {{
+    transform: translateY(-3px);
+    box-shadow: 0 12px 24px -4px rgba(15, 23, 42, 0.08), 0 8px 16px -4px rgba(15, 23, 42, 0.04) !important;
+    border-color: {ACCENT} !important;
+}}
 </style>
 """, unsafe_allow_html=True)
 
