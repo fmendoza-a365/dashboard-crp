@@ -125,7 +125,10 @@ section[data-testid="stSidebar"] {{
     margin: 0 auto !important;
 }}
 
-header[data-testid="stHeader"] {{ background:transparent!important; }}
+/* Hide Streamlit Header, Main Menu and Footer */
+header[data-testid="stHeader"] {{ display: none !important; }}
+#MainMenu {{ visibility: hidden; }}
+footer {{ visibility: hidden; }}
 
 /* ---- inputs / selects / date / text ---- */
 /* Control outer border and container */
