@@ -118,7 +118,7 @@ section[data-testid="stSidebar"] {{
 }}
 
 .block-container, .stMainBlockContainer {{
-    max-width: 1560px !important;
+    max-width: 100% !important;
     padding-left: 2rem !important;
     padding-right: 2rem !important;
     padding-top: 1.5rem !important;
