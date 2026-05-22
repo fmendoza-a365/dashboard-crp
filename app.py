@@ -84,7 +84,7 @@ if os.path.exists(logo_path):
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 BG      = "#f8fafc"
 SURFACE = "#ffffff"
-BORDER  = "#e2e8f0"
+BORDER  = "#eef2f6"
 TXT     = "#0f172a"
 MUTED   = "#64748b"
 ACCENT  = TEAL
@@ -92,7 +92,7 @@ PLT     = "plotly_white"
 GRID    = "#f1f5f9"
 INP_BG  = "#ffffff"
 INP_TXT = "#0f172a"
-INP_BRD = "#cbd5e1"
+INP_BRD = "#e2e8f0"
 SEC_BG  = "#f1f5f9"
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -397,6 +397,7 @@ div[data-testid="stPlotlyChart"] {{
     border: 1px solid {BORDER} !important;
     border-radius: 16px !important;
     padding: 12px 14px !important;
+    margin: 8px 0 !important;
     box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.03), 0 2px 4px -2px rgba(15, 23, 42, 0.02) !important;
     transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.25s !important;
     overflow: hidden !important;
