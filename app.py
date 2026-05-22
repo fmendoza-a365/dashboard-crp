@@ -399,6 +399,7 @@ div[data-testid="stPlotlyChart"] {{
     padding: 12px 14px !important;
     box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.03), 0 2px 4px -2px rgba(15, 23, 42, 0.02) !important;
     transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.25s !important;
+    overflow: hidden !important;
 }}
 div[data-testid="stPlotlyChart"]:hover {{
     transform: translateY(-3px);
@@ -769,7 +770,7 @@ with r1a:
         line=dict(color=MUTED, width=1.8, dash="dash"),
         hovertemplate="<b>%{x|%d %b}</b><br>Objetivo: %{y:.1f} ventas<extra></extra>"
     ))
-    style_fig(fig_burn, f"Avance Acumulado vs Meta (Objetivo: {current_target} ventas)", h=290)
+    style_fig(fig_burn, f"Avance Acumulado vs Meta (Objetivo: {current_target} ventas)", h=260)
     fig_burn.update_layout(legend=dict(orientation="h", y=-0.15, x=0.5, xanchor="center"))
     st.plotly_chart(fig_burn, use_container_width=True, config={'displayModeBar': False})
 
@@ -782,7 +783,7 @@ with r1b:
         fill="tozeroy", fillcolor="rgba(0,178,169,0.05)",
         hovertemplate="<b>%{x|%d %b}</b><br>Ventas: %{y}<extra></extra>",
     ))
-    style_fig(fig, "Tendencia Diaria de Ventas", h=290)
+    style_fig(fig, "Tendencia Diaria de Ventas", h=260)
     fig.update_layout(showlegend=False)
     st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
 
@@ -798,7 +799,7 @@ with r2a:
         textposition="auto", textfont=dict(color="#fff", size=12),
         hovertemplate="<b>%{y}</b><br>S/. %{x:,.0f}<extra></extra>",
     ))
-    style_fig(fig, "Recaudacion por Supervisor", h=290)
+    style_fig(fig, "Recaudacion por Supervisor", h=260)
     fig.update_xaxes(tickprefix="S/. ")
     fig.update_yaxes(showgrid=False)
     fig.update_layout(showlegend=False)
@@ -824,7 +825,7 @@ with r2b:
         textfont=dict(color="#fff", size=11),
         hovertemplate="<b>%{x}</b><br>Ventas: %{y}<extra></extra>"
     ))
-    style_fig(fig_days, "Ventas por Día de la Semana", h=290)
+    style_fig(fig_days, "Ventas por Día de la Semana", h=260)
     fig_days.update_layout(showlegend=False)
     st.plotly_chart(fig_days, use_container_width=True, config={'displayModeBar': False})
 
@@ -852,7 +853,7 @@ with r3a:
         hovertemplate="<b>%{y}</b><br>Meta: %{x}<extra></extra>"
     ))
     fig_meta.update_layout(barmode="group")
-    style_fig(fig_meta, "Desempeño vs Meta por Asesor (Ventas)", h=340)
+    style_fig(fig_meta, "Desempeño vs Meta por Asesor (Ventas)", h=300)
     fig_meta.update_layout(legend=dict(orientation="h", y=-0.15, x=0.5, xanchor="center"))
     st.plotly_chart(fig_meta, use_container_width=True, config={'displayModeBar': False})
 
@@ -864,7 +865,7 @@ with r3b:
         textinfo="percent+label", textfont=dict(size=11),
         hovertemplate="<b>%{label}</b><br>S/. %{value:,.0f}<br>%{percent}<extra></extra>",
     ))
-    style_fig(fig, "Distribucion de Primas", h=340)
+    style_fig(fig, "Distribucion de Primas", h=300)
     fig.update_layout(
         annotations=[dict(text=f"S/. {total_prima:,.0f}", x=.5, y=.5, font_size=13, font_color=TXT, showarrow=False)],
         legend=dict(orientation="h", y=-0.05, x=.5, xanchor="center", font=dict(size=10, color=TXT)),
@@ -879,7 +880,7 @@ with r3c:
     fig.add_trace(go.Bar(name="Com. Supervisor", x=df_com["SUP_FULL"], y=df_com["Supervisor"],
                          marker_color=TEAL, marker_cornerradius=5, hovertemplate="Supervisor: S/. %{y:,.0f}<extra></extra>"))
     fig.update_layout(barmode="stack")
-    style_fig(fig, "Comisiones Generadas", h=340)
+    style_fig(fig, "Comisiones Generadas", h=300)
     fig.update_yaxes(tickprefix="S/. ")
     fig.update_layout(legend=dict(orientation="h", y=-0.15, x=.5, xanchor="center", font=dict(size=10, color=TXT)))
     st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
@@ -1041,7 +1042,7 @@ with col_ch1:
         textfont=dict(color="#fff", size=11),
         hovertemplate="<b>%{y}</b><br>Agendas: %{x}<extra></extra>"
     ))
-    style_fig(fig_ag_a, "Distribución de Agendas por Asesor", h=280)
+    style_fig(fig_ag_a, "Distribución de Agendas por Asesor", h=250)
     fig_ag_a.update_yaxes(showgrid=False)
     st.plotly_chart(fig_ag_a, use_container_width=True, config={'displayModeBar': False})
 
@@ -1056,7 +1057,7 @@ with col_ch2:
         fill="tozeroy", fillcolor="rgba(0,178,169,0.05)",
         hovertemplate="<b>%{x|%d %b %Y}</b><br>Agendas: %{y}<extra></extra>"
     ))
-    style_fig(fig_ag_t, "Tendencia Diaria de Agendas (Histórico)", h=280)
+    style_fig(fig_ag_t, "Tendencia Diaria de Agendas (Histórico)", h=250)
     fig_ag_t.update_layout(showlegend=False)
     st.plotly_chart(fig_ag_t, use_container_width=True, config={'displayModeBar': False})
 
