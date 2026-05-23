@@ -1258,8 +1258,7 @@ with st.expander("Ver registro detallado de agendas"):
 st.markdown("---")
 st.markdown(
     f"<div style='text-align:center;padding:8px 0 20px;font-size:12px;color:{MUTED}'>"
-    f"Clinica Ricardo Palma &middot; Dashboard de Operaciones &middot; Mayo 2026<br>"
-    f"Streamlit &amp; Plotly &middot; Datos actualizados al 18 de Mayo"
+    f"Clinica Ricaldo Palma - Fuvex A365 - Bearlytics"
     f"</div>",
     unsafe_allow_html=True,
 )
