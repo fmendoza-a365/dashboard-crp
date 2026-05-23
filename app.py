@@ -82,7 +82,7 @@ if os.path.exists(logo_path):
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # PALETTE (Light Mode)
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-BG      = "#f3f6fa"
+BG      = "#eef3f8"
 SURFACE = "#ffffff"
 BORDER  = "#e5ebf2"
 TXT     = "#0f172a"
@@ -93,7 +93,7 @@ GRID    = "#f1f5f9"
 INP_BG  = "#ffffff"
 INP_TXT = "#0f172a"
 INP_BRD = "#e2e8f0"
-SEC_BG  = "#eaf0f6"
+SEC_BG  = "#e6edf5"
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # CSS
@@ -196,16 +196,35 @@ label {{
 
 /* ---- tabs ---- */
 .stTabs [data-baseweb="tab-list"] {{
-    background:{BG}!important;
-    border-radius:10px; padding:4px;
+    background:{SURFACE}!important;
+    border-radius:10px 10px 0 0;
+    padding:0 8px;
     border:1px solid {BORDER};
+    border-bottom:none;
+    gap:2px;
 }}
 .stTabs [data-baseweb="tab"] {{
-    color:{MUTED}!important; font-weight:600!important; border-radius:8px!important;
+    color:{MUTED}!important;
+    font-weight:600!important;
+    border-radius:0!important;
+    height:44px!important;
+    padding:0 12px!important;
+    background:transparent!important;
+    border:none!important;
+    box-shadow:none!important;
+}}
+.stTabs [data-baseweb="tab"]:hover {{
+    color:{ACCENT}!important;
+    background:{SEC_BG}!important;
 }}
 .stTabs [aria-selected="true"] {{
-    background:{SURFACE}!important; color:{ACCENT}!important;
-    box-shadow:0 2px 6px rgba(0,0,0,.06)!important;
+    background:transparent!important;
+    color:{ACCENT}!important;
+    box-shadow:inset 0 -2px 0 {ACCENT}!important;
+}}
+.stTabs [aria-selected="true"] * {{
+    color:{ACCENT}!important;
+    font-weight:700!important;
 }}
 
 /* ---- expander ---- */
@@ -464,8 +483,8 @@ div[data-testid="stPlotlyChart"] *::-webkit-scrollbar {{
 }}
 div[data-testid="stPlotlyChart"]:hover {{
     transform: none !important;
-    box-shadow: 0 12px 24px -4px rgba(15, 23, 42, 0.08), 0 8px 16px -4px rgba(15, 23, 42, 0.04) !important;
-    border-color: {ACCENT} !important;
+    box-shadow: 0 8px 16px -10px rgba(15, 23, 42, 0.10), 0 3px 8px -8px rgba(15, 23, 42, 0.08) !important;
+    border-color: {ACCENT}24 !important;
 }}
 @media (max-width: 768px) {{
     div[data-testid="stPlotlyChart"] {{
@@ -781,31 +800,71 @@ def style_fig(fig, title="", h=350):
         plot_bgcolor="rgba(0,0,0,0)",
         paper_bgcolor=SURFACE,
         autosize=False,
-        title=dict(text=title, font=dict(size=14, family="Inter", color=ACCENT), x=0.03, y=0.98, yanchor="top"),
-        margin=dict(l=28, r=28, t=64, b=62, pad=0),
+        title=dict(text=title, font=dict(size=13, family="Inter", color=ACCENT), x=0.03, y=0.98, yanchor="top"),
+        margin=dict(l=22, r=22, t=50, b=44, pad=0),
         height=h,
-        font=dict(family="Inter", color=TXT, size=11),
-        hoverlabel=dict(bgcolor=SURFACE, font_color=TXT, font_size=12, bordercolor=BORDER),
+        font=dict(family="Inter", color=TXT, size=10),
+        hoverlabel=dict(bgcolor=SURFACE, font_color=TXT, font_size=11, bordercolor=BORDER),
         dragmode=False,
         legend=dict(
             orientation="h",
-            y=-0.12,
+            y=-0.1,
             yanchor="top",
             x=0.5,
             xanchor="center",
-            font=dict(size=10, color=TXT),
+            font=dict(size=9, color=TXT),
         ),
     )
-    fig.update_xaxes(showgrid=True, gridcolor=GRID, zeroline=False, fixedrange=True, automargin=True)
-    fig.update_yaxes(showgrid=True, gridcolor=GRID, zeroline=False, fixedrange=True, automargin=True)
+    fig.update_xaxes(
+        showgrid=True,
+        gridcolor=GRID,
+        zeroline=False,
+        fixedrange=True,
+        automargin=True,
+        ticks="",
+        showline=False,
+        tickfont=dict(size=9, color=MUTED),
+        title=None,
+    )
+    fig.update_yaxes(
+        showgrid=True,
+        gridcolor=GRID,
+        zeroline=False,
+        fixedrange=True,
+        automargin=True,
+        ticks="",
+        showline=False,
+        tickfont=dict(size=9, color=MUTED),
+        title=None,
+    )
     return fig
 
 
-def chart_height(rows=0, base=330, row_px=26, extra=150):
-    return max(base, extra + rows * row_px) if rows else base
+def chart_height(rows=0, base=300, row_px=22, extra=120, cap=360):
+    return min(cap, max(base, extra + rows * row_px)) if rows else base
 
 
 PLOTLY_CONFIG = {"displayModeBar": False, "responsive": True, "scrollZoom": False}
+
+
+def format_date_axis(fig, nticks=5):
+    fig.update_xaxes(
+        tickformat="%d/%m",
+        nticks=nticks,
+        tickangle=0,
+        ticklabelstandoff=5,
+    )
+    return fig
+
+
+def polish_bar_axes(fig, orientation="v"):
+    if orientation == "h":
+        fig.update_xaxes(tickformat=",.0f", separatethousands=True)
+        fig.update_yaxes(showgrid=False)
+    else:
+        fig.update_xaxes(showgrid=False, tickangle=0)
+        fig.update_yaxes(tickformat=",.0f", separatethousands=True)
+    return fig
 
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -853,8 +912,9 @@ with r1a:
         line=dict(color=MUTED, width=1.8, dash="dash"),
         hovertemplate="<b>%{x|%d %b}</b><br>Objetivo: %{y:.1f} ventas<extra></extra>"
     ))
-    style_fig(fig_burn, f"Avance Acumulado vs Meta (Objetivo: {current_target} ventas)", h=330)
-    fig_burn.update_layout(legend=dict(orientation="h", y=-0.12, yanchor="top", x=0.5, xanchor="center"))
+    style_fig(fig_burn, f"Avance vs Meta ({current_target} ventas)", h=270)
+    format_date_axis(fig_burn)
+    fig_burn.update_layout(legend=dict(orientation="h", y=-0.1, yanchor="top", x=0.5, xanchor="center"))
     st.plotly_chart(fig_burn, width="stretch", config=PLOTLY_CONFIG)
 
 with r1b:
@@ -866,56 +926,74 @@ with r1b:
         fill="tozeroy", fillcolor="rgba(0,178,169,0.05)",
         hovertemplate="<b>%{x|%d %b}</b><br>Ventas: %{y}<extra></extra>",
     ))
-    style_fig(fig, "Tendencia Diaria de Ventas", h=330)
+    style_fig(fig, "Tendencia Diaria de Ventas", h=270)
+    format_date_axis(fig)
     fig.update_layout(showlegend=False)
     st.plotly_chart(fig, width="stretch", config=PLOTLY_CONFIG)
 
-# Row 2 ─ Primas por Supervisor | Ventas por Día de la Semana
-r2a, r2b = st.columns(2)
+# Row 2 - Datos compactos
+c1, c2, c3 = st.columns(3)
 
-with r2a:
+with c1:
     df_sp = fv.groupby("SUP_FULL").agg(Prima=("PRIMA", "sum"), N=("PRIMA", "count")).reset_index().sort_values("Prima", ascending=True)
     fig = go.Figure(go.Bar(
         y=df_sp["SUP_FULL"], x=df_sp["Prima"], orientation="h",
         marker=dict(color=[CYAN, TEAL][: len(df_sp)], cornerradius=6),
-        text=df_sp.apply(lambda r: f"S/. {r['Prima']:,.0f}  ({int(r['N'])} ventas)", axis=1),
-        textposition="auto", textfont=dict(color="#fff", size=12),
+        text=df_sp.apply(lambda r: f"S/. {r['Prima']:,.0f}", axis=1),
+        textposition="inside", insidetextanchor="end", textfont=dict(color="#fff", size=10),
         hovertemplate="<b>%{y}</b><br>S/. %{x:,.0f}<extra></extra>",
     ))
-    style_fig(fig, "Recaudacion por Supervisor", h=chart_height(len(df_sp), base=330, row_px=28))
-    fig.update_xaxes(tickprefix="S/. ")
-    fig.update_yaxes(showgrid=False)
+    style_fig(fig, "Recaudacion por Supervisor", h=235)
+    polish_bar_axes(fig, "h")
+    fig.update_xaxes(tickprefix="S/. ", nticks=4)
     fig.update_layout(showlegend=False)
     st.plotly_chart(fig, width="stretch", config=PLOTLY_CONFIG)
 
-with r2b:
-    fv_temp = fv.copy()
-    fv_temp["Dia_Semana"] = fv_temp["FECHA"].dt.day_name()
-    day_mapping = {
-        "Monday": "Lunes", "Tuesday": "Martes", "Wednesday": "Miércoles",
-        "Thursday": "Jueves", "Friday": "Viernes", "Saturday": "Sábado", "Sunday": "Domingo"
-    }
-    fv_temp["Dia_Esp"] = fv_temp["Dia_Semana"].map(day_mapping)
-    df_days = fv_temp.groupby("Dia_Esp").size().reset_index(name="Ventas")
-    days_order = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]
-    df_days["Dia_Esp"] = pd.Categorical(df_days["Dia_Esp"], categories=days_order, ordered=True)
-    df_days = df_days.sort_values("Dia_Esp")
-    
-    fig_days = go.Figure(go.Bar(
-        x=df_days["Dia_Esp"], y=df_days["Ventas"],
-        marker=dict(color=TEAL, cornerradius=5),
-        text=df_days["Ventas"], textposition="auto",
-        textfont=dict(color="#fff", size=11),
-        hovertemplate="<b>%{x}</b><br>Ventas: %{y}<extra></extra>"
+with c2:
+    df_com = fv.groupby("SUP_FULL").agg(
+        Asesor=("COMISION", "sum"),
+        Supervisor=("COMISION SUPERVISOR", "sum"),
+    ).reset_index()
+    df_com["Total"] = df_com["Asesor"] + df_com["Supervisor"]
+    df_com = df_com.sort_values("Total", ascending=True)
+    fig_com = go.Figure()
+    fig_com.add_trace(go.Bar(
+        name="Com. Asesor", y=df_com["SUP_FULL"], x=df_com["Asesor"],
+        orientation="h", marker_color=CYAN, marker_cornerradius=5,
+        hovertemplate="Asesor: S/. %{x:,.0f}<extra></extra>",
     ))
-    style_fig(fig_days, "Ventas por Día de la Semana", h=330)
-    fig_days.update_layout(showlegend=False)
-    st.plotly_chart(fig_days, width="stretch", config=PLOTLY_CONFIG)
+    fig_com.add_trace(go.Bar(
+        name="Com. Supervisor", y=df_com["SUP_FULL"], x=df_com["Supervisor"],
+        orientation="h", marker_color=TEAL, marker_cornerradius=5,
+        hovertemplate="Supervisor: S/. %{x:,.0f}<extra></extra>",
+    ))
+    fig_com.update_layout(barmode="stack")
+    style_fig(fig_com, "Comisiones Generadas", h=235)
+    polish_bar_axes(fig_com, "h")
+    fig_com.update_xaxes(showticklabels=False, showgrid=False)
+    fig_com.update_yaxes(tickfont=dict(size=8, color=MUTED))
+    fig_com.update_layout(legend=dict(orientation="h", y=-0.04, yanchor="top", x=.5, xanchor="center", font=dict(size=8, color=TXT)))
+    st.plotly_chart(fig_com, width="stretch", config=PLOTLY_CONFIG)
 
-# Row 3 ─ Desempeño de Asesores vs Meta | Donut de Distribución | Comisiones
-r3a, r3b, r3c = st.columns([1.4, 1, 1.2])
+with c3:
+    df_pie = fv.groupby("SUP_FULL")["PRIMA"].sum().reset_index()
+    fig = go.Figure(go.Pie(
+        labels=df_pie["SUP_FULL"], values=df_pie["PRIMA"], hole=0.55,
+        marker=dict(colors=[TEAL, CYAN]),
+        textinfo="percent", textfont=dict(size=11, color="#fff"),
+        hovertemplate="<b>%{label}</b><br>S/. %{value:,.0f}<br>%{percent}<extra></extra>",
+    ))
+    style_fig(fig, "Distribucion de Primas", h=235)
+    fig.update_layout(
+        annotations=[dict(text=f"S/. {total_prima:,.0f}", x=.5, y=.5, font_size=12, font_color=TXT, showarrow=False)],
+        legend=dict(orientation="h", y=-0.05, yanchor="top", x=.5, xanchor="center", font=dict(size=8, color=TXT)),
+    )
+    st.plotly_chart(fig, width="stretch", config=PLOTLY_CONFIG)
 
-with r3a:
+# Row 3 - Detalle operativo
+d1, d2 = st.columns(2)
+
+with d1:
     df_a_meta = fv.groupby("ASESOR").size().reset_index(name="Ventas")
     df_a_meta["Meta"] = df_a_meta["ASESOR"].map(lambda n: ASESOR_TARGETS.get(n.strip().upper(), 13))
     df_a_meta = df_a_meta.sort_values("Ventas", ascending=True).tail(8)
@@ -936,37 +1014,42 @@ with r3a:
         hovertemplate="<b>%{y}</b><br>Meta: %{x}<extra></extra>"
     ))
     fig_meta.update_layout(barmode="group")
-    style_fig(fig_meta, "Desempeño vs Meta por Asesor (Ventas)", h=chart_height(len(df_a_meta), base=360, row_px=28))
-    fig_meta.update_layout(legend=dict(orientation="h", y=-0.12, yanchor="top", x=0.5, xanchor="center"))
+    style_fig(fig_meta, "Desempeño vs Meta por Asesor", h=295)
+    polish_bar_axes(fig_meta, "h")
+    fig_meta.update_layout(legend=dict(orientation="h", y=-0.1, yanchor="top", x=0.5, xanchor="center"))
     st.plotly_chart(fig_meta, width="stretch", config=PLOTLY_CONFIG)
 
-with r3b:
-    df_pie = fv.groupby("SUP_FULL")["PRIMA"].sum().reset_index()
-    fig = go.Figure(go.Pie(
-        labels=df_pie["SUP_FULL"], values=df_pie["PRIMA"], hole=0.55,
-        marker=dict(colors=[TEAL, CYAN]),
-        textinfo="percent+label", textfont=dict(size=11),
-        hovertemplate="<b>%{label}</b><br>S/. %{value:,.0f}<br>%{percent}<extra></extra>",
-    ))
-    style_fig(fig, "Distribucion de Primas", h=340)
-    fig.update_layout(
-        annotations=[dict(text=f"S/. {total_prima:,.0f}", x=.5, y=.5, font_size=13, font_color=TXT, showarrow=False)],
-        legend=dict(orientation="h", y=-0.1, yanchor="top", x=.5, xanchor="center", font=dict(size=10, color=TXT)),
-    )
-    st.plotly_chart(fig, width="stretch", config=PLOTLY_CONFIG)
+with d2:
+    fv_temp = fv.copy()
+    fv_temp["Dia_Semana"] = fv_temp["FECHA"].dt.day_name()
+    day_mapping = {
+        "Monday": "Lunes", "Tuesday": "Martes", "Wednesday": "Miércoles",
+        "Thursday": "Jueves", "Friday": "Viernes", "Saturday": "Sábado", "Sunday": "Domingo"
+    }
+    fv_temp["Dia_Esp"] = fv_temp["Dia_Semana"].map(day_mapping)
+    df_days = fv_temp.groupby("Dia_Esp").size().reset_index(name="Ventas")
+    days_order = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"]
+    df_days["Dia_Esp"] = pd.Categorical(df_days["Dia_Esp"], categories=days_order, ordered=True)
+    df_days = df_days.sort_values("Dia_Esp")
+    day_short = {
+        "Lunes": "Lun", "Martes": "Mar", "Miércoles": "Mie",
+        "Jueves": "Jue", "Viernes": "Vie", "Sábado": "Sab", "Domingo": "Dom"
+    }
+    df_days["Dia_Corto"] = df_days["Dia_Esp"].astype(str).map(day_short)
 
-with r3c:
-    df_com = fv.groupby("SUP_FULL").agg(Asesor=("COMISION", "sum"), Supervisor=("COMISION SUPERVISOR", "sum")).reset_index()
-    fig = go.Figure()
-    fig.add_trace(go.Bar(name="Com. Asesor", x=df_com["SUP_FULL"], y=df_com["Asesor"],
-                         marker_color=CYAN, marker_cornerradius=5, hovertemplate="Asesor: S/. %{y:,.0f}<extra></extra>"))
-    fig.add_trace(go.Bar(name="Com. Supervisor", x=df_com["SUP_FULL"], y=df_com["Supervisor"],
-                         marker_color=TEAL, marker_cornerradius=5, hovertemplate="Supervisor: S/. %{y:,.0f}<extra></extra>"))
-    fig.update_layout(barmode="stack")
-    style_fig(fig, "Comisiones Generadas", h=340)
-    fig.update_yaxes(tickprefix="S/. ")
-    fig.update_layout(legend=dict(orientation="h", y=-0.12, yanchor="top", x=.5, xanchor="center", font=dict(size=10, color=TXT)))
-    st.plotly_chart(fig, width="stretch", config=PLOTLY_CONFIG)
+    fig_days = go.Figure(go.Bar(
+        x=df_days["Dia_Corto"], y=df_days["Ventas"],
+        customdata=df_days["Dia_Esp"].astype(str),
+        marker=dict(color=TEAL, cornerradius=5),
+        text=df_days["Ventas"], textposition="auto",
+        textfont=dict(color="#fff", size=10),
+        hovertemplate="<b>%{customdata}</b><br>Ventas: %{y}<extra></extra>"
+    ))
+    style_fig(fig_days, "Ventas por Dia", h=295)
+    polish_bar_axes(fig_days, "v")
+    fig_days.update_xaxes(tickfont=dict(size=9, color=MUTED))
+    fig_days.update_layout(showlegend=False)
+    st.plotly_chart(fig_days, width="stretch", config=PLOTLY_CONFIG)
 
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -1125,7 +1208,7 @@ with col_ch1:
         textfont=dict(color="#fff", size=11),
         hovertemplate="<b>%{y}</b><br>Agendas: %{x}<extra></extra>"
     ))
-    style_fig(fig_ag_a, "Distribución de Agendas por Asesor", h=chart_height(len(df_ag_asesor), base=360, row_px=24, extra=170))
+    style_fig(fig_ag_a, "Distribución de Agendas por Asesor", h=chart_height(len(df_ag_asesor), base=300, row_px=18, extra=120, cap=340))
     fig_ag_a.update_yaxes(showgrid=False)
     st.plotly_chart(fig_ag_a, width="stretch", config=PLOTLY_CONFIG)
 
@@ -1140,7 +1223,8 @@ with col_ch2:
         fill="tozeroy", fillcolor="rgba(0,178,169,0.05)",
         hovertemplate="<b>%{x|%d %b %Y}</b><br>Agendas: %{y}<extra></extra>"
     ))
-    style_fig(fig_ag_t, "Tendencia Diaria de Agendas (Histórico)", h=330)
+    style_fig(fig_ag_t, "Tendencia Diaria de Agendas", h=300)
+    format_date_axis(fig_ag_t)
     fig_ag_t.update_layout(showlegend=False)
     st.plotly_chart(fig_ag_t, width="stretch", config=PLOTLY_CONFIG)
 
