@@ -262,6 +262,7 @@ hr {{ border-color:{BORDER}!important; }}
     border-radius: 16px;
     padding: 22px 24px;
     width: 100%;
+    height: 100%;
     min-width: 0;
     box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.03), 0 2px 4px -2px rgba(15, 23, 42, 0.02);
     transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.25s;
@@ -307,7 +308,7 @@ hr {{ border-color:{BORDER}!important; }}
 }}
 .kpi-grid {{
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
     gap: 16px;
     width: 100%;
     margin-bottom: 14px;
@@ -389,14 +390,22 @@ hr {{ border-color:{BORDER}!important; }}
     .kpi-grid {{
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }}
-    div[data-testid="stHorizontalBlock"] {{
-        flex-wrap: wrap !important;
+    div[data-testid="stHorizontalBlock"],
+    [data-testid="stHorizontalBlock"] {{
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
         gap: 16px !important;
+        width: 100% !important;
+        min-width: 0 !important;
     }}
-    div[data-testid="column"] {{
-        flex: 1 1 calc(50% - 16px) !important;
-        width: auto !important;
-        min-width: min(260px, 100%) !important;
+    div[data-testid="column"],
+    [data-testid="column"],
+    div[data-testid="stColumn"],
+    [data-testid="stColumn"] {{
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+        flex: none !important;
     }}
 }}
 
@@ -442,24 +451,51 @@ hr {{ border-color:{BORDER}!important; }}
         flex-wrap: wrap !important;
     }}
 
-    div[data-testid="stHorizontalBlock"] {{
-        flex-direction: column !important;
-        height: auto !important;
+    div[data-testid="stHorizontalBlock"],
+    [data-testid="stHorizontalBlock"] {{
+        display: grid !important;
+        grid-template-columns: minmax(0, 1fr) !important;
         gap: 16px !important;
         width: 100% !important;
         min-width: 0 !important;
-    }}
-    div[data-testid="column"] {{
-        width: 100% !important;
-        flex: 0 0 auto !important;
-        min-width: 0 !important;
         max-width: 100% !important;
+        height: auto !important;
+    }}
+    div[data-testid="column"],
+    [data-testid="column"],
+    div[data-testid="stColumn"],
+    [data-testid="stColumn"] {{
+        width: 100% !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
+        flex: none !important;
         height: auto !important;
         margin-bottom: 0 !important;
     }}
-    div[data-testid="column"] > div {{
+    div[data-testid="column"] > div,
+    [data-testid="column"] > div,
+    div[data-testid="stColumn"] > div,
+    [data-testid="stColumn"] > div,
+    div[data-testid="stVerticalBlock"],
+    [data-testid="stVerticalBlock"],
+    div[data-testid="stElementContainer"],
+    [data-testid="stElementContainer"],
+    div[data-testid="element-container"],
+    [data-testid="element-container"] {{
         width: 100% !important;
         min-width: 0 !important;
+        max-width: 100% !important;
+    }}
+    div[data-testid="stSelectbox"],
+    div[data-testid="stDateInput"],
+    div[data-testid="stTextInput"],
+    div[data-baseweb="select"],
+    div[data-testid="stSelectbox"] > div,
+    div[data-testid="stDateInput"] > div,
+    div[data-testid="stTextInput"] > div,
+    div[data-baseweb="select"] > div {{
+        width: 100% !important;
+        max-width: 100% !important;
     }}
 
     .kpi-grid {{
@@ -601,7 +637,8 @@ hr {{ border-color:{BORDER}!important; }}
         padding-left: 1rem !important;
         padding-right: 1rem !important;
     }}
-    div[data-testid="column"] {{
+    div[data-testid="column"],
+    div[data-testid="stColumn"] {{
         margin-bottom: 0 !important;
     }}
     .kpi {{
@@ -628,12 +665,18 @@ hr {{ border-color:{BORDER}!important; }}
 /* ---- plotly chart cards ---- */
 div[data-testid="stElementContainer"]:has(div[data-testid="stPlotlyChart"]),
 div[data-testid="element-container"]:has(div[data-testid="stPlotlyChart"]) {{
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
     overflow: hidden !important;
     -ms-overflow-style: none !important;
     scrollbar-width: none !important;
 }}
 div[data-testid="stElementContainer"]:has(div[data-testid="stPlotlyChart"]) > div,
 div[data-testid="element-container"]:has(div[data-testid="stPlotlyChart"]) > div {{
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
     overflow: hidden !important;
 }}
 div[data-testid="stElementContainer"]:has(div[data-testid="stPlotlyChart"])::-webkit-scrollbar,
@@ -648,6 +691,9 @@ div[data-testid="stPlotlyChart"] {{
     background: {SURFACE} !important;
     border: 1px solid {BORDER} !important;
     border-radius: 16px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
     padding: 0 !important;
     margin: 0 !important;
     box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.03), 0 2px 4px -2px rgba(15, 23, 42, 0.02) !important;
@@ -662,7 +708,9 @@ div[data-testid="stPlotlyChart"] > div,
 div[data-testid="stPlotlyChart"] .js-plotly-plot,
 div[data-testid="stPlotlyChart"] .plot-container,
 div[data-testid="stPlotlyChart"] .svg-container {{
+    width: 100% !important;
     max-width: 100% !important;
+    min-width: 0 !important;
     overflow: hidden !important;
 }}
 div[data-testid="stPlotlyChart"] .svg-container {{
@@ -1384,17 +1432,13 @@ peak_day_series = df_ag_temp["Dia_Esp"].value_counts()
 peak_day_name = peak_day_series.index[0] if not peak_day_series.empty else "N/A"
 peak_day_val = peak_day_series.iloc[0] if not peak_day_series.empty else 0
 
-col_ag1, col_ag2, col_ag3, col_ag4 = st.columns(4)
-with col_ag1:
-    st.markdown(kpi(ICON["calendar"], "Total Agendas", f"{total_agendas}", "Registros en Ene/Feb 2025"), unsafe_allow_html=True)
-with col_ag2:
-    st.markdown(kpi(ICON["clipboard"], "Asesores Activos", f"{act_ag_asesores}", f"Promedio: {avg_ag_per_asesor:.1f} por asesor"), unsafe_allow_html=True)
-with col_ag3:
-    st.markdown(kpi(ICON["trending"], "Top Agendador", f"{top_ag_val}", f"Asesor: {top_ag_name}"), unsafe_allow_html=True)
-with col_ag4:
-    st.markdown(kpi(ICON["globe"], "Día Más Activo", f"{peak_day_name}", f"Pico de {peak_day_val} agendas"), unsafe_allow_html=True)
-
-st.markdown("<div style='height:14px'></div>", unsafe_allow_html=True)
+agenda_kpi_cards = [
+    kpi(ICON["calendar"], "Total Agendas", f"{total_agendas}", "Registros en Ene/Feb 2025"),
+    kpi(ICON["clipboard"], "Asesores Activos", f"{act_ag_asesores}", f"Promedio: {avg_ag_per_asesor:.1f} por asesor"),
+    kpi(ICON["trending"], "Top Agendador", f"{top_ag_val}", f"Asesor: {top_ag_name}"),
+    kpi(ICON["globe"], "Día Más Activo", f"{peak_day_name}", f"Pico de {peak_day_val} agendas"),
+]
+st.markdown(f"<div class='kpi-grid'>{''.join(agenda_kpi_cards)}</div>", unsafe_allow_html=True)
 
 # 2 side-by-side charts for agendas
 col_ch1, col_ch2 = st.columns(2)
