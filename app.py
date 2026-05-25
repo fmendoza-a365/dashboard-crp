@@ -385,69 +385,135 @@ hr {{ border-color:{BORDER}!important; }}
     }}
 }}
 
-/* ---- responsive: mobile ---- */
+/* ---- responsive: mobile (768px and down) ---- */
 @media (max-width: 768px) {{
     .block-container, .stMainBlockContainer {{
-        padding-left: 0.75rem !important;
-        padding-right: 0.75rem !important;
-        padding-top: 0.75rem !important;
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+        padding-top: 1rem !important;
         max-width: 100% !important;
     }}
-    /* Stack ALL columns vertically */
-    div[data-testid="stHorizontalBlock"] {{
+
+    /* Stack standard columns vertically (excluding KPI block) */
+    div[data-testid="stHorizontalBlock"]:not(:has(.kpi)) {{
         flex-direction: column !important;
-        gap: 12px !important;
+        gap: 16px !important;
     }}
-    div[data-testid="column"] {{
+    div[data-testid="stHorizontalBlock"]:not(:has(.kpi)) > div[data-testid="column"] {{
         width: 100% !important;
         flex: 1 1 100% !important;
         min-width: 100% !important;
         max-width: 100% !important;
     }}
-    /* KPI cards */
+
+    /* KPI grid (2-column layout) */
+    div[data-testid="stHorizontalBlock"]:has(.kpi) {{
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+        gap: 10px !important;
+    }}
+    div[data-testid="column"]:has(.kpi) {{
+        flex: 1 1 calc(50% - 5px) !important;
+        min-width: calc(50% - 5px) !important;
+        max-width: calc(50% - 5px) !important;
+    }}
+    /* Center/Full-width 5th KPI card */
+    div[data-testid="column"]:has(.kpi):nth-child(5) {{
+        flex: 1 1 100% !important;
+        min-width: 100% !important;
+        max-width: 100% !important;
+    }}
+
+    /* KPI Card styling optimizations */
     .kpi {{
-        padding: 16px 16px !important;
+        padding: 14px 16px !important;
         border-radius: 12px !important;
+        box-shadow: 0 2px 8px rgba(15, 23, 42, 0.02) !important;
     }}
-    .kpi-val {{
-        font-size: 24px !important;
-    }}
-    .kpi-lbl {{
-        font-size: 10px !important;
-        letter-spacing: 0.5px !important;
-    }}
-    .kpi-sub {{
-        font-size: 11px !important;
+    .kpi:hover {{
+        transform: none !important;
     }}
     .kpi-head {{
         gap: 8px !important;
         margin-bottom: 8px !important;
     }}
-    /* Insight boxes stack full width */
+    .kpi-icon-wrap {{
+        width: 28px !important;
+        height: 28px !important;
+        border-radius: 6px !important;
+    }}
+    .kpi-icon-wrap svg {{
+        width: 16px !important;
+        height: 16px !important;
+    }}
+    .kpi-lbl {{
+        font-size: 9px !important;
+        letter-spacing: 0.5px !important;
+    }}
+    .kpi-val {{
+        font-size: 20px !important;
+    }}
+    .kpi-sub {{
+        font-size: 10px !important;
+        margin-top: 4px !important;
+    }}
+
+    /* Operational Insights Grid (2x2 layout) */
     .insight-row {{
-        flex-direction: column !important;
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
         gap: 10px !important;
     }}
     .insight-box {{
-        min-width: 100% !important;
-        padding: 14px 16px !important;
+        flex: 1 1 calc(50% - 5px) !important;
+        min-width: calc(50% - 5px) !important;
+        max-width: calc(50% - 5px) !important;
+        padding: 12px 14px !important;
+        border-radius: 12px !important;
     }}
-    /* Header alignment */
+    .insight-box:hover {{
+        transform: none !important;
+    }}
+    .insight-lbl-row {{
+        gap: 10px !important;
+    }}
+    .insight-icon-wrap {{
+        width: 32px !important;
+        height: 32px !important;
+        border-radius: 8px !important;
+    }}
+    .insight-icon-wrap svg {{
+        width: 16px !important;
+        height: 16px !important;
+    }}
+    .insight-lbl {{
+        font-size: 8.5px !important;
+        letter-spacing: 0.5px !important;
+    }}
+    .insight-val {{
+        font-size: 13px !important;
+        margin-top: 1px !important;
+    }}
+
+    /* Header & Badge Alignment */
     div[style*="text-align:right"] {{
         text-align: left !important;
+        align-items: flex-start !important;
         padding-top: 6px !important;
     }}
     div[style*="height:75px"] {{
         height: auto !important;
         min-height: 50px !important;
     }}
+
     /* Section headers */
     .sec {{
         font-size: 13px !important;
         padding: 10px 14px !important;
-        margin: 20px 0 14px !important;
+        margin: 24px 0 14px !important;
     }}
-    /* Tabs: horizontal scroll */
+
+    /* Tabs: horizontal scrollable list */
     .stTabs [data-baseweb="tab-list"] {{
         overflow-x: auto !important;
         -webkit-overflow-scrolling: touch !important;
@@ -459,85 +525,65 @@ hr {{ border-color:{BORDER}!important; }}
     }}
     .stTabs [data-baseweb="tab"] {{
         font-size: 12px !important;
-        padding: 0 8px !important;
+        padding: 0 10px !important;
         height: 38px !important;
         white-space: nowrap !important;
         flex-shrink: 0 !important;
     }}
+
     /* Data tables: horizontal scroll */
     [data-testid="stDataFrame"] {{
         overflow-x: auto !important;
         -webkit-overflow-scrolling: touch !important;
     }}
-    /* Download buttons full width */
+
+    /* Buttons full width */
     .stDownloadButton, .stLinkButton {{
         width: 100% !important;
     }}
     .stDownloadButton button, .stLinkButton a {{
         width: 100% !important;
     }}
-    /* Expander */
+
+    /* Expander style */
     details[data-testid="stExpander"] {{
         border-radius: 10px !important;
     }}
-    /* Labels */
+
+    /* Filter Labels */
     label {{
         font-size: 10px !important;
     }}
 }}
 
-/* ---- responsive: small phones ---- */
-@media (max-width: 600px) {{
+/* ---- responsive: small phones (480px and down) ---- */
+@media (max-width: 480px) {{
     .block-container, .stMainBlockContainer {{
-        padding-left: 0.5rem !important;
-        padding-right: 0.5rem !important;
+        padding-left: 0.75rem !important;
+        padding-right: 0.75rem !important;
+    }}
+    .kpi {{
+        padding: 10px 12px !important;
     }}
     .kpi-val {{
-        font-size: 22px !important;
-    }}
-    .kpi-lbl {{
-        font-size: 9px !important;
+        font-size: 18px !important;
     }}
     .kpi-sub {{
-        font-size: 10px !important;
-        margin-top: 4px !important;
-    }}
-    .kpi-icon-wrap {{
-        width: 28px !important;
-        height: 28px !important;
-        border-radius: 6px !important;
-    }}
-    .insight-val {{
-        font-size: 14px !important;
-    }}
-    .insight-lbl {{
         font-size: 9px !important;
     }}
-    .insight-icon-wrap {{
-        width: 32px !important;
-        height: 32px !important;
-    }}
-    .sec {{
-        font-size: 12px !important;
-        padding: 8px 12px !important;
-    }}
-}}
-
-/* ---- responsive: extra-small phones ---- */
-@media (max-width: 480px) {{
-    .kpi {{
-        padding: 14px 12px !important;
-    }}
-    .kpi-val {{
-        font-size: 20px !important;
-    }}
     .insight-box {{
-        padding: 12px 14px !important;
-        border-radius: 12px !important;
+        padding: 10px 10px !important;
+        border-radius: 10px !important;
+    }}
+    .insight-val {{
+        font-size: 11px !important;
+    }}
+    .insight-lbl {{
+        font-size: 8px !important;
     }}
     .stTabs [data-baseweb="tab"] {{
         font-size: 11px !important;
-        padding: 0 6px !important;
+        padding: 0 8px !important;
         height: 34px !important;
     }}
 }}
