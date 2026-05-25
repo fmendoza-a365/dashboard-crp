@@ -399,16 +399,35 @@ hr {{ border-color:{BORDER}!important; }}
         max-width: 100% !important;
     }}
 
+    /* Center header elements on mobile (logo and metadata) */
+    div[style*="height:75px"] {{
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+        text-align: center !important;
+        margin: 0 auto !important;
+        height: auto !important;
+        min-height: 50px !important;
+    }}
+    div[style*="text-align:right"] {{
+        align-items: center !important;
+        text-align: center !important;
+        padding-top: 10px !important;
+    }}
+
     /* Stacking columns with an elegant, uniform vertical spacing */
     div[data-testid="stHorizontalBlock"] {{
         flex-direction: column !important;
+        height: auto !important;
         gap: 0 !important; /* Controlled by column margins for absolute precision */
     }}
     div[data-testid="column"] {{
         width: 100% !important;
-        flex: 1 1 100% !important;
+        flex: none !important; /* Prevent vertical squeezing and overlap! */
         min-width: 100% !important;
         max-width: 100% !important;
+        height: auto !important;
         margin-bottom: 18px !important; /* Beautiful bottom spacing between stacked cards */
     }}
     div[data-testid="column"]:last-child {{
@@ -488,17 +507,6 @@ hr {{ border-color:{BORDER}!important; }}
     .insight-val {{
         font-size: 15px !important;
         margin-top: 3px !important;
-    }}
-
-    /* Header & Badge Alignment */
-    div[style*="text-align:right"] {{
-        text-align: left !important;
-        align-items: flex-start !important;
-        padding-top: 8px !important;
-    }}
-    div[style*="height:75px"] {{
-        height: auto !important;
-        min-height: 50px !important;
     }}
 
     /* Section headers */
