@@ -261,6 +261,8 @@ hr {{ border-color:{BORDER}!important; }}
     border: 1px solid {BORDER};
     border-radius: 16px;
     padding: 22px 24px;
+    width: 100%;
+    min-width: 0;
     box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.03), 0 2px 4px -2px rgba(15, 23, 42, 0.02);
     transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.25s;
 }}
@@ -303,6 +305,13 @@ hr {{ border-color:{BORDER}!important; }}
     color: {MUTED};
     margin-top: 8px;
 }}
+.kpi-grid {{
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 16px;
+    width: 100%;
+    margin-bottom: 14px;
+}}
 
 /* ---- section header ---- */
 .sec {{
@@ -324,10 +333,12 @@ hr {{ border-color:{BORDER}!important; }}
     margin-top: 14px;
     margin-bottom: 24px;
     flex-wrap: wrap;
+    align-items: stretch;
 }}
 .insight-box {{
     flex: 1;
     min-width: 240px;
+    max-width: 100%;
     background: {SURFACE};
     border-radius: 16px;
     padding: 18px 22px;
@@ -370,10 +381,14 @@ hr {{ border-color:{BORDER}!important; }}
     color: {TXT};
     line-height: 1.2;
     margin-top: 2px;
+    overflow-wrap: anywhere;
 }}
 
 /* ---- responsive: tablet ---- */
 @media (max-width: 1100px) {{
+    .kpi-grid {{
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }}
     div[data-testid="stHorizontalBlock"] {{
         flex-wrap: wrap !important;
         gap: 16px !important;
@@ -399,42 +414,59 @@ hr {{ border-color:{BORDER}!important; }}
         max-width: 100% !important;
     }}
 
-    /* Center header elements on mobile (logo and metadata) */
-    div[style*="height:75px"] {{
+    .mobile-logo-container {{
+        display: flex !important;
+        justify-content: flex-start !important;
+        align-items: center !important;
+        height: auto !important;
+        min-height: 56px !important;
+        width: 100% !important;
+    }}
+    .mobile-logo-container img {{
+        max-width: min(270px, 100%) !important;
+        height: auto !important;
+    }}
+    .mobile-header-meta {{
         display: flex !important;
         flex-direction: column !important;
         justify-content: center !important;
-        align-items: center !important;
-        text-align: center !important;
-        margin: 0 auto !important;
+        align-items: flex-start !important;
+        text-align: left !important;
         height: auto !important;
-        min-height: 50px !important;
+        min-height: 42px !important;
+        width: 100% !important;
+        padding-top: 0 !important;
     }}
-    div[style*="text-align:right"] {{
-        align-items: center !important;
-        text-align: center !important;
-        padding-top: 10px !important;
+    .mobile-header-meta > div {{
+        justify-content: flex-start !important;
+        flex-wrap: wrap !important;
     }}
 
-    /* Stacking columns with an elegant, uniform vertical spacing */
     div[data-testid="stHorizontalBlock"] {{
         flex-direction: column !important;
         height: auto !important;
-        gap: 0 !important; /* Controlled by column margins for absolute precision */
+        gap: 16px !important;
+        width: 100% !important;
+        min-width: 0 !important;
     }}
     div[data-testid="column"] {{
         width: 100% !important;
-        flex: none !important; /* Prevent vertical squeezing and overlap! */
-        min-width: 100% !important;
+        flex: 0 0 auto !important;
+        min-width: 0 !important;
         max-width: 100% !important;
         height: auto !important;
-        margin-bottom: 18px !important; /* Beautiful bottom spacing between stacked cards */
-    }}
-    div[data-testid="column"]:last-child {{
         margin-bottom: 0 !important;
     }}
+    div[data-testid="column"] > div {{
+        width: 100% !important;
+        min-width: 0 !important;
+    }}
 
-    /* KPI Cards styling optimizations */
+    .kpi-grid {{
+        grid-template-columns: 1fr !important;
+        gap: 14px !important;
+        margin-bottom: 20px !important;
+    }}
     .kpi {{
         padding: 20px 22px !important;
         border-radius: 16px !important;
@@ -480,6 +512,7 @@ hr {{ border-color:{BORDER}!important; }}
     .insight-box {{
         min-width: 100% !important;
         max-width: 100% !important;
+        width: 100% !important;
         padding: 16px 18px !important;
         border-radius: 14px !important;
         box-shadow: 0 4px 12px rgba(15, 23, 42, 0.02) !important;
@@ -569,7 +602,7 @@ hr {{ border-color:{BORDER}!important; }}
         padding-right: 1rem !important;
     }}
     div[data-testid="column"] {{
-        margin-bottom: 14px !important;
+        margin-bottom: 0 !important;
     }}
     .kpi {{
         padding: 16px 18px !important;
@@ -792,7 +825,7 @@ with head_cols[0]:
         logo_html = f"<h1 style='color:{ACCENT};margin:0;font-weight:800;font-size:24px;'>CLINICA CRP</h1>"
     
     st.markdown(
-        f"<div style='display:flex;align-items:center;height:75px;'>"
+        f"<div class='mobile-logo-container' style='display:flex;align-items:center;height:75px;'>"
         f"  {logo_html}"
         f"</div>",
         unsafe_allow_html=True,
@@ -806,7 +839,7 @@ with head_cols[1]:
     badge_title = "Google Sheets (En Vivo)" if is_live else "Excel Local (Offline)"
 
     st.markdown(
-        f"<div style='text-align:right;height:75px;display:flex;flex-direction:column;justify-content:center;align-items:flex-end;'>"
+        f"<div class='mobile-header-meta' style='text-align:right;height:75px;display:flex;flex-direction:column;justify-content:center;align-items:flex-end;'>"
         f"  <span style='font-size:10px;font-weight:700;color:{MUTED};letter-spacing:1px;text-transform:uppercase;'>Centro de Operaciones</span>"
         f"  <div style='display:flex;align-items:center;gap:6px;margin-top:2px;'>"
         f"    <span style='font-size:12px;color:{GREEN};font-weight:600;'>&bull; Campaña Mayo 2026</span>"
@@ -878,18 +911,16 @@ def kpi(icon_fn, label, value, sub, val_color=None):
         f"</div>"
     )
 
-k1, k2, k3, k4, k5 = st.columns(5)
-with k1:
-    st.markdown(kpi(ICON["dollar"], "Recaudacion Total", f"S/. {total_prima:,.0f}", f"{total_ventas} contratos"), unsafe_allow_html=True)
-with k2:
-    c = GREEN if avance_pct >= 80 else (GOLD if avance_pct >= 50 else RED)
-    st.markdown(kpi(ICON["percent"], "Avance vs Meta", f"{avance_pct:.1f}%", f"Meta: {META_GLOBAL} &middot; Faltan {gap}", c), unsafe_allow_html=True)
-with k3:
-    st.markdown(kpi(ICON["clipboard"], "Operaciones", f"{total_ventas}", "Registradas en Mayo 2026"), unsafe_allow_html=True)
-with k4:
-    st.markdown(kpi(ICON["tag"], "Ticket Promedio", f"S/. {ticket_prom:,.0f}", f"Comisión prom: S/. {(fv['COMISION'].mean() if total_ventas else 0):,.0f}"), unsafe_allow_html=True)
-with k5:
-    st.markdown(kpi(ICON["wallet"], "Comisiones Totales", f"S/. {total_comisiones:,.0f}", f"Asesor + Supervisor"), unsafe_allow_html=True)
+c = GREEN if avance_pct >= 80 else (GOLD if avance_pct >= 50 else RED)
+comision_prom = fv["COMISION"].mean() if total_ventas else 0
+kpi_cards = [
+    kpi(ICON["dollar"], "Recaudacion Total", f"S/. {total_prima:,.0f}", f"{total_ventas} contratos"),
+    kpi(ICON["percent"], "Avance vs Meta", f"{avance_pct:.1f}%", f"Meta: {META_GLOBAL} &middot; Faltan {gap}", c),
+    kpi(ICON["clipboard"], "Operaciones", f"{total_ventas}", "Registradas en Mayo 2026"),
+    kpi(ICON["tag"], "Ticket Promedio", f"S/. {ticket_prom:,.0f}", f"Comisión prom: S/. {comision_prom:,.0f}"),
+    kpi(ICON["wallet"], "Comisiones Totales", f"S/. {total_comisiones:,.0f}", "Asesor + Supervisor"),
+]
+st.markdown(f"<div class='kpi-grid'>{''.join(kpi_cards)}</div>", unsafe_allow_html=True)
 
 # Calculate secondary operational insights
 if not fv.empty:
