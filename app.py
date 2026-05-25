@@ -372,58 +372,173 @@ hr {{ border-color:{BORDER}!important; }}
     margin-top: 2px;
 }}
 
-/* ---- responsive layout ---- */
+/* ---- responsive: tablet ---- */
 @media (max-width: 1100px) {{
     div[data-testid="stHorizontalBlock"] {{
         flex-wrap: wrap !important;
-        gap: 16px !important;
+        gap: 14px !important;
     }}
     div[data-testid="column"] {{
-        flex: 1 1 260px !important;
+        flex: 1 1 calc(50% - 14px) !important;
         width: auto !important;
         min-width: min(260px, 100%) !important;
     }}
 }}
 
-/* ---- mobile responsiveness ---- */
+/* ---- responsive: mobile ---- */
 @media (max-width: 768px) {{
     .block-container, .stMainBlockContainer {{
-        padding-left: 1rem !important;
-        padding-right: 1rem !important;
-        padding-top: 1rem !important;
+        padding-left: 0.75rem !important;
+        padding-right: 0.75rem !important;
+        padding-top: 0.75rem !important;
         max-width: 100% !important;
     }}
-    .insight-box {{
-        min-width: 100% !important;
-    }}
-    .kpi {{
-        padding: 18px 20px !important;
-    }}
-    /* Stack all streamlit columns on mobile */
+    /* Stack ALL columns vertically */
     div[data-testid="stHorizontalBlock"] {{
         flex-direction: column !important;
-        gap: 16px !important;
+        gap: 12px !important;
     }}
     div[data-testid="column"] {{
         width: 100% !important;
         flex: 1 1 100% !important;
         min-width: 100% !important;
+        max-width: 100% !important;
     }}
-    /* Align header items better on mobile */
-    div[style*="text-align:right"] {{
-        text-align: left !important;
-        padding-top: 10px !important;
+    /* KPI cards */
+    .kpi {{
+        padding: 16px 16px !important;
+        border-radius: 12px !important;
     }}
-}}
-@media (max-width: 600px) {{
     .kpi-val {{
         font-size: 24px !important;
     }}
     .kpi-lbl {{
         font-size: 10px !important;
+        letter-spacing: 0.5px !important;
+    }}
+    .kpi-sub {{
+        font-size: 11px !important;
+    }}
+    .kpi-head {{
+        gap: 8px !important;
+        margin-bottom: 8px !important;
+    }}
+    /* Insight boxes stack full width */
+    .insight-row {{
+        flex-direction: column !important;
+        gap: 10px !important;
+    }}
+    .insight-box {{
+        min-width: 100% !important;
+        padding: 14px 16px !important;
+    }}
+    /* Header alignment */
+    div[style*="text-align:right"] {{
+        text-align: left !important;
+        padding-top: 6px !important;
+    }}
+    div[style*="height:75px"] {{
+        height: auto !important;
+        min-height: 50px !important;
+    }}
+    /* Section headers */
+    .sec {{
+        font-size: 13px !important;
+        padding: 10px 14px !important;
+        margin: 20px 0 14px !important;
+    }}
+    /* Tabs: horizontal scroll */
+    .stTabs [data-baseweb="tab-list"] {{
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        scrollbar-width: none !important;
+        padding: 0 4px !important;
+    }}
+    .stTabs [data-baseweb="tab-list"]::-webkit-scrollbar {{
+        display: none !important;
+    }}
+    .stTabs [data-baseweb="tab"] {{
+        font-size: 12px !important;
+        padding: 0 8px !important;
+        height: 38px !important;
+        white-space: nowrap !important;
+        flex-shrink: 0 !important;
+    }}
+    /* Data tables: horizontal scroll */
+    [data-testid="stDataFrame"] {{
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+    }}
+    /* Download buttons full width */
+    .stDownloadButton, .stLinkButton {{
+        width: 100% !important;
+    }}
+    .stDownloadButton button, .stLinkButton a {{
+        width: 100% !important;
+    }}
+    /* Expander */
+    details[data-testid="stExpander"] {{
+        border-radius: 10px !important;
+    }}
+    /* Labels */
+    label {{
+        font-size: 10px !important;
+    }}
+}}
+
+/* ---- responsive: small phones ---- */
+@media (max-width: 600px) {{
+    .block-container, .stMainBlockContainer {{
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+    }}
+    .kpi-val {{
+        font-size: 22px !important;
+    }}
+    .kpi-lbl {{
+        font-size: 9px !important;
+    }}
+    .kpi-sub {{
+        font-size: 10px !important;
+        margin-top: 4px !important;
+    }}
+    .kpi-icon-wrap {{
+        width: 28px !important;
+        height: 28px !important;
+        border-radius: 6px !important;
     }}
     .insight-val {{
-        font-size: 15px !important;
+        font-size: 14px !important;
+    }}
+    .insight-lbl {{
+        font-size: 9px !important;
+    }}
+    .insight-icon-wrap {{
+        width: 32px !important;
+        height: 32px !important;
+    }}
+    .sec {{
+        font-size: 12px !important;
+        padding: 8px 12px !important;
+    }}
+}}
+
+/* ---- responsive: extra-small phones ---- */
+@media (max-width: 480px) {{
+    .kpi {{
+        padding: 14px 12px !important;
+    }}
+    .kpi-val {{
+        font-size: 20px !important;
+    }}
+    .insight-box {{
+        padding: 12px 14px !important;
+        border-radius: 12px !important;
+    }}
+    .stTabs [data-baseweb="tab"] {{
+        font-size: 11px !important;
+        padding: 0 6px !important;
+        height: 34px !important;
     }}
 }}
 
@@ -490,6 +605,11 @@ div[data-testid="stPlotlyChart"]:hover {{
     div[data-testid="stPlotlyChart"] {{
         padding: 0 !important;
         border-radius: 12px !important;
+        border-width: 1px !important;
+    }}
+    div[data-testid="stPlotlyChart"] .svg-container {{
+        width: 100% !important;
+        max-width: 100% !important;
     }}
 }}
 </style>
@@ -799,7 +919,7 @@ def style_fig(fig, title="", h=350):
         template=PLT,
         plot_bgcolor="rgba(0,0,0,0)",
         paper_bgcolor=SURFACE,
-        autosize=False,
+        autosize=True,
         title=dict(text=title, font=dict(size=13, family="Inter", color=ACCENT), x=0.03, y=0.98, yanchor="top"),
         margin=dict(l=22, r=22, t=50, b=44, pad=0),
         height=h,
